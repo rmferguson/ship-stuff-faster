@@ -1,0 +1,72 @@
+[tool.poetry]
+name = "api"
+version = "0.1.0"
+description = "Ship Stuff Faster — Django API"
+authors = []
+license = "Unlicense"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.2"
+djangorestframework = "^3.16"
+djangorestframework-simplejwt = "^5.5"
+django-cors-headers = "^4.7"
+psycopg2-binary = "^2.9"
+pydantic-settings = "^2.9"
+gunicorn = "^23.0"
+whitenoise = "^6.9"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3"
+pytest-django = "^4.10"
+faker = "^37.0"
+ruff = "^0.11"
+mypy = "^1.15"
+django-stubs = { version = "^5.2", extras = ["compatible-mypy"] }
+djangorestframework-stubs = { version = "^3.16", extras = ["compatible-mypy"] }
+hypothesis = {extras = ["django"], version = "^6.152.4"}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+# 120 chars: wider than the Black default (88) to accommodate Django/DRF patterns
+# where long string arguments and URL configs read better on a single line.
+line-length = 120
+target-version = "py312"
+# Migrations are auto-generated — enforcing style rules on them causes spurious
+# diffs and conflicts when squashing or regenerating them.
+exclude = ["**/migrations/**"]
+
+[tool.ruff.lint]
+# E/W = pycodestyle errors/warnings, F = pyflakes (unused imports/names),
+# I = isort, S = bandit (security), C90 = mccabe complexity,
+# UP = pyupgrade (modernise syntax), B = bugbear (likely bugs and design issues)
+select = ["E", "F", "I", "W", "S", "C90", "UP", "B"]
+ignore = ["S101"]  # assert is fine in tests
+mccabe = { max-complexity = 10 }
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S106", "S107"]  # allow assert + hardcoded passwords in tests
+"config/settings.py" = ["S105"]  # dev default secret is intentional, validated at boot
+
+[tool.mypy]
+strict = true
+plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
+exclude = ["migrations/"]
+
+[[tool.mypy.overrides]]
+# Test code doesn't need strict untyped-def coverage.
+module = ["tests.*"]
+disallow_untyped_defs = false
+
+[tool.django-stubs]
+django_settings_module = "config.settings"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.test_settings"
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]

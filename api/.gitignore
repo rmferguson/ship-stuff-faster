@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Dev artefacts
+_debug/
+
+# Env
+.env
+
+# sg-firm session files (local only)
+sg-firm/
