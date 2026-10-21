@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, type FormEvent } from 'react';
+import { Suspense, useState, type FormEvent } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
@@ -10,7 +10,16 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { getApiErrorMessage } from '@/lib/api-client';
 import { getSafeReturnPath } from '@/lib/url-utils';
 
+// useSearchParams() requires a Suspense boundary for static prerendering.
 export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
+  );
+}
+
+function LoginForm() {
   const { login } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();

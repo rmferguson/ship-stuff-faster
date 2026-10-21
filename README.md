@@ -9,7 +9,7 @@ Built for developers who already know what they're doing and want the auth, prox
 ## Stack
 
 - **API**: Django 5, DRF, SimpleJWT, PostgreSQL, Poetry
-- **Web**: Next.js 15, React 19, Tailwind 4, shadcn/ui, Vitest
+- **Web**: Node 24.22.1+ (see `web/.nvmrc`), Next.js 16, React 19, Tailwind 4, shadcn/ui, Vitest
 
 ## Starting from this scaffold
 
