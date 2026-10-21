@@ -1,6 +1,10 @@
 # ship-stuff-faster
 
-Django + Next.js scaffold for starting new projects without the week-one tax.
+A Django + Next.js scaffold built to get a solo founder or small team to a live product with a real customer — in week one, not week eight. It skips the tooling a mid-size team eventually needs (Celery, Redis, CI/CD, Sentry, brute-force defense, type-safe API client generation), because a pre-launch product doesn't need any of that yet.
+
+The closest comparable is Vinta's django-react-boilerplate (~2.3k GitHub stars), which ships all of the above out of the box — that's the week-eight scope this project deliberately skips. The concrete difference: this scaffold runs on Next.js App Router (SSR, file-based routing), not a React SPA on a Webpack build.
+
+Built for developers who already know what they're doing and want the auth, proxy, and database plumbing done correctly on day one: Django 5 + DRF + SimpleJWT auth, a Next.js httpOnly-cookie + proxy pattern instead of raw JWT in localStorage, shadcn/ui, and a Django test suite with Hypothesis-based property tests and IDOR tests already in place. Spend your time on the product, not on rebuilding boilerplate.
 
 ## Stack
 
@@ -11,7 +15,7 @@ Django + Next.js scaffold for starting new projects without the week-one tax.
 
 ### 1. Copy the repo
 
-Clone or copy the directory. Exclude `.git/`, `.beads/`, and `sg-firm/` — those are project-specific. Start fresh:
+Clone or copy the directory. Exclude `.git/`, `.dolt/`, `.claude/`, and `sg-firm/` — those are project-specific. Start fresh:
 
 ```bash
 git init
@@ -22,7 +26,9 @@ git init
 Two search-and-replace passes across the repo:
 
 - `ssf` → your short name (e.g. `myapp`) — covers DB name/user defaults in `settings.py` and `.env.example`
-- `ship-stuff-faster` → your project slug (e.g. `my-app`) — covers `pyproject.toml`, settings docstrings, and `web/src/app/layout.tsx`
+- `ship-stuff-faster` → your project slug (e.g. `my-app`) — covers the docstrings in `settings.py` and `test_settings.py`, and `web/src/app/layout.tsx`
+
+`api/pyproject.toml`'s `description` field uses title case (`"Ship Stuff Faster — Django API"`), so the search-and-replace above won't catch it — update that line by hand if you want it renamed too.
 
 ### 3. Create a PostgreSQL database
 
